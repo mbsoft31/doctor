@@ -1,10 +1,10 @@
 
 
-1/ git clone https://github.com/mbsoft31/hotel.git hotel
+1/ https://github.com/mbsoft31/doctor.git
 
 2/ cd hotel
 
-3/ -- edit .env file DB_PASSWORD=root to DB_PASSWORD= (empty)
+3/ edit .env file DB_PASSWORD=root to DB_PASSWORD= (empty)
 
 4/ composer install
 
