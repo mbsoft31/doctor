@@ -1,6 +1,6 @@
 <div>
 
-    <div class="hidden w-full bg-gray-100">
+    <div class="w-full bg-gray-100">
         <div class="max-w-7xl mx-auto h-full rounded-b-lg overflow-hidden">
             <div class="grid grid-cols-12 gap-4 items-center justify-center bg-indigo-700">
                 <div class="col-span-12 md:col-span-12 lg:col-span-5">
@@ -45,9 +45,9 @@
                                 <p class="mt-4 text-lg font-semibold tracking-wider text-indigo-500">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi eligendi minima quae quam sint voluptas.</p>
                             </div>
                         </div>
-                        {{--<div class="px-4 py-4 bg-white">
-                            <livewire:calendar :model="$model" type="App\Models\Doctor" class="text-indigo-500" --}}{{--:date="$date"--}}{{-- wire:key="'calendar-doctor-{{$model->id}}'" />
-                        </div>--}}
+                        <div class="px-4 py-4 bg-white">
+                            <livewire:calendar :model="$model" type="App\Models\Doctor" class="text-indigo-500" :date="$date" wire:key="'calendar-doctor-{{$model->id}}'" />
+                        </div>
                     </div>
                 </div>
             </div>

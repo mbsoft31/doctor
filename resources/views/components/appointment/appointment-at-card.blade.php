@@ -22,19 +22,19 @@
 
 <div>
     <div class="flex items-start">
-        <div class="w-24 h-24">
+        <a href="{{ route("appointment.create", array_merge(compact("model"), ["type" => "doctor"])) }}" class="block w-24 h-24">
             <img src="{{ $model->user->profile_photo_url }}" alt="profile" class="w-full h-full object-center object-cover rounded-full">
-        </div>
+        </a>
         <div class="flex-1 px-6 py-2 space-y-1">
             @if( isset($kind) )
-                <div class="mb-4 uppercase text-sm font-bold tracking-wide {{$text}}">
+                <div class="mb-2 uppercase text-sm font-bold tracking-wide {{$text}}">
                     <span class="uppercase text-sm font-bold tracking-wide text-gray-900">{{ $kind }}</span>
                     @if($kind == "doctor")
                         <span class="uppercase text-sm font-bold tracking-wide text-gray-900">({{ $model->speciality->name }})</span>
                     @endif
                 </div>
             @endif
-            <a href="#" class='block text-xl font-semibold {{$text}}'>
+            <a href="{{ route("appointment.create", array_merge(compact("model"), ["type" => "doctor"])) }}" class='block text-2xl font-semibold {{$text}}'>
                 {{ $model->name }}
             </a>
             <a href="mailto:{{ $model->user->email }}" class="block uppercase text-sm font-bold tracking-wide text-gray-400">

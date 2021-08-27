@@ -87,128 +87,140 @@ class CreateAppointment extends Component
 
     public function makeAppointment(CreatesNewUsers $creator)
     {
-            $patientRules = [
-                "first_name" => [ "required", ],
-                "last_name" => [ "required", ],
-                "gender" => [ "required", ],
-                "birthdate" => [ "required", ],
-                "birth_place" => [ "required", ],
-                "address" => [ "required", ],
-                "city" => [ "required", ],
-                "zip" => [ "required", ],
-                "country" => [ "required", ],
+        $patientRules = [
+            "first_name" => [ "required", ],
+            "last_name" => [ "required", ],
+            "gender" => [ "required", ],
+            "birthdate" => [ "required", ],
+            "birth_place" => [ "required", ],
+            "address" => [ "required", ],
+            "city" => [ "required", ],
+            "zip" => [ "required", ],
+            "country" => [ "required", ],
+        ];
+
+        $appointmentRules = [
+            "appointment_at_id" => ["required"],
+            "appointment_at_type" => ["required"],
+            "date" => ["required", "date"],
+            "time" => ["required", "string"],
+            "state" => ["required"],
+            "metas" => ["array"],
+        ];
+
+        $inputs = [
+            "appointment_at_id" => $this->model->id,
+            "appointment_at_type" => $this->type,
+            "date" => $this->date,
+            "time" => $this->time,
+            "state" => "accepted",
+            "metas" => [],
+        ];
+        $patientData = [];
+
+        if ( Auth::check() && Auth::user()->hasRole("patient") )
+        {
+            $patient = Auth::user()->patient;
+            $inputs["patient_id"] = $patient->id;
+        }
+        elseif ( Auth::check() && Auth::user()->hasAnyRole(["laboratory", "doctor"]) )
+        {
+            // TODO: create patient model
+            $user = Auth::user();
+
+            $model = $user?->doctor ?? $user?->laboratory;
+
+            $patientData = [
+                "first_name" => $model->first_name,
+                "last_name" => $model->last_name,
+                "gender" => $model->gender,
+                "birthdate" => $model->birthdate,
+                "birth_place" => $model->birth_place,
+                "address" => $model->address,
+                "city" => $model->city,
+                "zip" => $model->zip,
+                "country" => $model->country,
             ];
 
-            $appointmentRules = [
-                "appointment_at_id" => ["required"],
-                "appointment_at_type" => ["required"],
-                "date" => ["required", "date"],
-                "time" => ["required", "string"],
-                "state" => ["required"],
-                "metas" => ["array"],
-            ];
+            $validator = Validator::make($patientData, $patientRules);
 
-            $inputs = [
-                "appointment_at_id" => $this->model->id,
-                "appointment_at_type" => $this->type,
-                "date" => $this->date,
-                "time" => $this->time,
-                "state" => "accepted",
-                "metas" => [],
-            ];
-            $patientData = [];
+            $data = $validator->validate();
 
-            if ( Auth::check() && Auth::user()->hasRole("patient") )
-            {
-                $patient = Auth::user()->patient;
-                $inputs["patient_id"] = $patient->id;
-            }
-            elseif ( Auth::check() && Auth::user()->hasAnyRole(["laboratory", "doctor"]) )
-            {
-                // TODO: create patient model
-                $user = Auth::user();
+            if ($validator->fails())
+                dd($validator->errors());
 
-                $model = $user?->doctor ?? $user?->laboratory;
+            $user->assignRole("patient");
+            $patient = $user->patient()->create($data);
 
-                $patientData = [
-                    "first_name" => $model->first_name,
-                    "last_name" => $model->last_name,
-                    "gender" => $model->gender,
-                    "birthdate" => $model->birthdate,
-                    "birth_place" => $model->birth_place,
-                    "address" => $model->address,
-                    "city" => $model->city,
-                    "zip" => $model->zip,
-                    "country" => $model->country,
-                ];
 
-                $validator = Validator::make($patientData, $patientRules);
+            $inputs["patient_id"] = Auth::user()->patient->id;
 
-                $data = $validator->validate();
+        }elseif (Auth::check() && !Auth::user()->hasAnyRole(["laboratory", "doctor", "patient"])) {
 
-                if ($validator->fails())
-                    dd($validator->errors());
-
-                $patient = $user->patient()->create($data);
-
-                $inputs["patient_id"] = Auth::user()->patient->id;
-
-            }elseif (Auth::check() && !Auth::user()->hasAnyRole(["laboratory", "doctor"]) && !Auth::user()->hasRole("patient")) {
-                $patientData = array_merge( collect($this->state)
+            $patientData = array_merge(
+                collect($this->state)
                     ->only(["first_name", "last_name", "gender", "birthdate", "birth_place", "address", "city", "zip", "country"])
-                    ->toArray(), [
+                    ->toArray(),
+                [
                     "metas" => [],
-                ]);
-                // TODO: create patient model for the current auth user
+                ]
+            );
+            // TODO: create patient model for the current auth user
 
-                $user = Auth::user();
+            $user = Auth::user();
 
-                $validator = Validator::make($patientData, $patientRules);
+            $validator = Validator::make($patientData, $patientRules);
 
-                $data = $validator->validate();
+            $data = $validator->validate();
 
-                if ($validator->fails())
-                    dd($validator->errors());
+            if ($validator->fails())
+                dd($validator->errors());
 
-                $patient = $user->patient()->create($data);
+            $user->assignRole("patient");
+            $patient = $user->patient()->create($data);
 
-                $inputs["patient_id"] = Auth::user()->patient->id;
 
-            }else {
-                $collection = collect($this->state)
-                    ->only(["first_name", "last_name", "gender", "birthdate", "birth_place", "address", "city", "zip", "country", "phone", "email", "password"])
-                    ->toArray();
+            $inputs["patient_id"] = Auth::user()->patient->id;
 
-                $userData = $collection->only(["phone", "email", "password"])->toArray();
-                $patientData = $collection->only(["first_name", "last_name", "gender", "birthdate", "birth_place", "address", "city", "zip", "country"])->toArray();
+        }else {
+            $collection = collect($this->state)
+                ->only(["first_name", "last_name", "gender", "birthdate", "birth_place", "address", "city", "zip", "country", "phone", "email", "password"])
+                ->toArray();
 
-                // TODO: create user model
-                $user = $creator->create($patientData);
+            /*$userData = $collection->only(["phone", "email", "password"])->toArray();
+            $patientData = $collection->only(["first_name", "last_name", "gender", "birthdate", "birth_place", "address", "city", "zip", "country"])->toArray();*/
 
-                // TODO: create patient model for that user
+            $patientData = array_merge($collection->toArray(), ["account_type" => "patient"]);
 
-                $validator = Validator::make($patientData, $patientRules);
+            // TODO: create user model
+            $user = $creator->create($patientData);
 
-                $data = $validator->validate();
+            // TODO: create patient model for that user
 
-                if ($validator->fails())
-                    dd($validator->errors());
+            $validator = Validator::make($patientData, $patientRules);
 
-                $patient = $user->patient()->create($data);
+            $data = $validator->validate();
 
-                $inputs["patient_id"] = Auth::user()->patient->id;
-            }
+            if ($validator->fails())
+                dd($validator->errors());
+
+            $patient = $user->patient()->create($data);
+
+            Auth::login($user);
+
+            $inputs["patient_id"] = Auth::user()->patient->id;
+        }
 
         try {
-                if (!isset($inputs["metas"]))
-                    $inputs["metas"] = [];
+            if (!isset($inputs["metas"]))
+                $inputs["metas"] = [];
             $data = Validator::make($inputs, $appointmentRules)->validate();
         }catch (ValidationException $e)
         {
             dd($inputs, $e->errors());
         }
 
-            $appointment = $patient->appointments()->create($data);
+        $appointment = $patient->appointments()->create($data);
 
         return redirect()->route("patient.appointment.index");
 

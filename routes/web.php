@@ -18,6 +18,8 @@ Route::get('/', function () {
 })->name("home");
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+    if (Auth::user()->hasRole("patient"))
+        return redirect()->route("home");
     return view('dashboard');
 })->name('dashboard');
 

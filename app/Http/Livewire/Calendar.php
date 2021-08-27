@@ -18,11 +18,6 @@ class Calendar extends Component
     public $times = [];
     public $days = [];
 
-    protected $queryString = [
-        "date",
-        "time"
-    ];
-
     protected $listeners = [
         "dateTimeUpdated" => '$refresh',
     ];
@@ -36,7 +31,7 @@ class Calendar extends Component
 
     public function updatedDate()
     {
-        $this->currentDate = Carbon::make($this->date);
+        //$this->currentDate = Carbon::make($this->date);
         $this->days = $this->getWeek($this->currentDate);
         $this->emit("dateTimeUpdated");
     }
@@ -55,7 +50,7 @@ class Calendar extends Component
 
         $test = collect($days)->map(function ($day) {
             return [
-                "date" => Carbon::make($day)->format("Y-m-d"),
+                "date" => $day->format("Y-m-d"),
                 "times" => $this->calculate($day),
             ];
         });
@@ -71,20 +66,23 @@ class Calendar extends Component
     public function previous()
     {
         $clone = $this->currentDate->clone()->subDays(1);
-        if ($clone->lt(Carbon::today()))
-            $clone = Carbon::today();
+        /*if ($clone->lt(Carbon::today()))
+            $clone = Carbon::today();*/
         $this->currentDate = $clone;
+        $this->updatedDate();
     }
 
     public function next()
     {
         $clone = $this->currentDate->clone()->addDays(1);
         $this->currentDate = $clone;
+        $this->updatedDate();
     }
 
     public function mount()
     {
         $this->currentDate = Carbon::today();
+        $this->updatedDate();
     }
 
     public function appointmentsOf($day)
@@ -99,7 +97,6 @@ class Calendar extends Component
 
     public function render()
     {
-        $this->days = $this->getWeek($this->currentDate);
         return view('livewire.calendar');
     }
 
@@ -107,7 +104,7 @@ class Calendar extends Component
     {
         $this->date = $date;
         $this->time = $time;
-        $this->emit("dateTimeUpdated");
+        $this->updatedDate();
         // dump($date, $time);
     }
 

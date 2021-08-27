@@ -24,6 +24,11 @@ class Search extends Component
 
     public $cities;
 
+    public function updated($key, $value)
+    {
+        $this->page = collect(["search", "date", "city"])->contains($key) ? 1 : $this->page;
+    }
+
     public function mount()
     {
         $this->cities = Doctor::query()
