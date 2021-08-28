@@ -9,6 +9,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Patient extends Model
 {
     use HasFactory;
+    use HasMetas;
+
+    protected $casts = [
+        "metas" => "array",
+    ];
 
     protected $fillable = [
         "first_name",
@@ -20,6 +25,8 @@ class Patient extends Model
         "city",
         "zip",
         "country",
+        "state",
+        "metas",
         "user_id",
     ];
 

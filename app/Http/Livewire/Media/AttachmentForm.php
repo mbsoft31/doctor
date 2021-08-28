@@ -13,32 +13,41 @@ class AttachmentForm extends Component
 {
     use WithFileUploads;
 
-    protected $listeners = [ "attachmentDeleted"];
-
-    /**
-     * @var InteractsWithMedia $model
-     */
     public $model;
 
-    public $show = true;
-
-    /**
-     * @var TemporaryUploadedFile
-     */
     public $media;
 
     public $upload;
+
+    public $show = true;
+
+    protected $listeners = [
+        "showAttachmentForm",
+        "hideAttachmentForm",
+        "toggleAttachmentForm",
+        "attachmentDeleted" => '$refresh',
+    ];
+
+    public function hideAttachmentForm()
+    {
+        $this->show = false;
+    }
+
+    public function showAttachmentForm()
+    {
+        $this->show = false;
+    }
+
+    public function toggleAttachmentForm()
+    {
+        $this->show = !$this->show;
+    }
 
     public function updatedMedia()
     {
         $this->save();
     }
 
-    /**
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig
-     */
     public function save()
     {
         if (!$this->media)
@@ -58,18 +67,6 @@ class AttachmentForm extends Component
 
         $this->emit("attachmentAdded");
         $this->hideFileInput();
-    }
-
-    public function hideFileInput()
-    {
-        $this->cleanupOldUploads();
-        $this->media = null;
-        $this->show = false;
-    }
-
-    public function showFileInput()
-    {
-        $this->show = true;
     }
 
     public function clearUpload()

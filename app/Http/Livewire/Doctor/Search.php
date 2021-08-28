@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Doctor;
 
 use App\Models\Doctor;
+use App\Models\Laboratory;
 use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -24,12 +25,12 @@ class Search extends Component
 
     public $cities;
 
-    public function updated($key, $value)
+    public function mount()
     {
-        $this->page = collect(["search", "date", "city"])->contains($key) ? 1 : $this->page;
+        $this->initCites();
     }
 
-    public function mount()
+    public function initCites()
     {
         $this->cities = Doctor::query()
             ->distinct()
@@ -40,6 +41,16 @@ class Search extends Component
             ->toArray();
     }
 
+    public function query($perPage = 2)
+    {
+        return Doctor::search($this->search)->city($this->city)->paginate($perPage);
+    }
+
+    public function updated($key, $value)
+    {
+        $this->page = collect(["search", "date", "city"])->contains($key) ? 1 : $this->page;
+    }
+
     public function render()
     {
         return view('livewire.doctor.search', [
@@ -47,21 +58,4 @@ class Search extends Component
         ]);
     }
 
-    public function query()
-    {
-        $query = Doctor::query();
-
-        if ( ! is_null($this->city) && $this->city != '') {
-            $query->where("city", "=", $this->city);
-        }
-
-        if ( ! is_null($this->search) && $this->search != '')
-        {
-            $query->where("first_name", 'like', "%$this->search%")
-                ->orWhere("last_name", 'like', "%$this->search%")
-                ->orWhere("address", 'like', "%$this->search%");
-        }
-
-        return $query->paginate(2);
-    }
 }

@@ -3,6 +3,7 @@
 namespace App\Actions\Fortify;
 
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -63,6 +64,10 @@ class CreateNewUser implements CreatesNewUsers
                 "zip" => $input["zip"],
                 "country" => $input["country"],
                 "speciality_id" => $input["speciality_id"],
+                "state" => "pending",
+                "metas" => [
+                    "days_off" => [Carbon::getWeekendDays()]
+                ],
             ]);
         } elseif ($input["account_type"] == "patient")
         {
@@ -76,6 +81,7 @@ class CreateNewUser implements CreatesNewUsers
                 "city" => $input["city"],
                 "zip" => $input["zip"],
                 "country" => $input["country"],
+                "metas" => [],
             ]);
         }elseif ($input["account_type"] == "laboratory")
         {
@@ -89,6 +95,10 @@ class CreateNewUser implements CreatesNewUsers
                 "city" => $input["city"],
                 "zip" => $input["zip"],
                 "country" => $input["country"],
+                "state" => "pending",
+                "metas" => [
+                    "days_off" => [Carbon::getWeekendDays()]
+                ],
             ]);
         }
 

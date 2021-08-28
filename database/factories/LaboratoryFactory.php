@@ -33,6 +33,10 @@ class LaboratoryFactory extends Factory
             "city" => $this->faker->city(),
             "zip" => rand(10000, 58999),
             "country" => "DZ",
+            "state" => "pending",
+            "metas" => [
+                "days_off" => [Carbon::getWeekendDays()]
+            ],
             "user_id" => User::factory(),
         ];
     }

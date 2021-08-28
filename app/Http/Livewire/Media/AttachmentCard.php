@@ -23,6 +23,7 @@ class AttachmentCard extends Component
 
     public function render()
     {
+        $types = ["application/pdf", "application/vnd.oasis.opendocument.text", "image/jpeg", "image/png"];
         return view('livewire.media.attachment-card');
     }
 }

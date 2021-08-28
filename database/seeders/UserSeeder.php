@@ -25,9 +25,5 @@ class UserSeeder extends Seeder
             ]);
 
         $admin->assignRole("admin");
-
-        $doctor = Doctor::factory()->create();
-
-        $doctor->user->assignRole("doctor");
     }
 }

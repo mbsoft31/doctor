@@ -3,6 +3,8 @@
 namespace App\Http\Livewire\Appointment;
 
 use App\Models\Appointment;
+use App\Models\Doctor;
+use App\Models\Laboratory;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -13,6 +15,9 @@ use Livewire\Component;
 class CreateAppointment extends Component
 {
 
+    /**
+     * @var Doctor|Laboratory $model
+     */
     public $model;
     public $type;
 
@@ -21,7 +26,7 @@ class CreateAppointment extends Component
     public $date;
     public $time;
 
-    public $times = [];
+    public array $times = [];
 
     protected $queryString = [
         "date",
@@ -45,6 +50,9 @@ class CreateAppointment extends Component
             "password" => null,
         ];
 
+        if ( ! isset($this->date) || ! is_null($this->date))
+            $this->date = Carbon::today()->format("Y-m-d");
+
         $this->times = $this->calculate($this->date);
     }
 
@@ -63,13 +71,13 @@ class CreateAppointment extends Component
             ->get();
     }
 
-    public function calculate($date)
+    public function calculate($date): array
     {
         $defaultWorkingHours = ["08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30"];
         //$workingTimes = [ "10:00", "10:30", "11:00", "11:30", "12:00", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30" ];
         $workingTimes = $defaultWorkingHours;
         //$reservedTimes = [ "10:30", "11:00", "15:00", "12:00" ];
-        $reservedTimes = $this->appointmentsOf($date)->pluck("time")->flatten()->toArray();
+        $reservedTimes = $this->appointmentsOf()->pluck("time")->flatten()->toArray();
         $availableTimes = [];
 
         foreach ($workingTimes as $time)
@@ -85,7 +93,7 @@ class CreateAppointment extends Component
         return $availableTimes;
     }
 
-    public function makeAppointment(CreatesNewUsers $creator)
+    public function makeAppointment(CreatesNewUsers $creator): \Illuminate\Http\RedirectResponse
     {
         $patientRules = [
             "first_name" => [ "required", ],
@@ -116,7 +124,6 @@ class CreateAppointment extends Component
             "state" => "accepted",
             "metas" => [],
         ];
-        $patientData = [];
 
         if ( Auth::check() && Auth::user()->hasRole("patient") )
         {
@@ -128,7 +135,7 @@ class CreateAppointment extends Component
             // TODO: create patient model
             $user = Auth::user();
 
-            $model = $user?->doctor ?? $user?->laboratory;
+            $model = $user->doctor ?? $user->laboratory;
 
             $patientData = [
                 "first_name" => $model->first_name,
@@ -190,7 +197,7 @@ class CreateAppointment extends Component
             /*$userData = $collection->only(["phone", "email", "password"])->toArray();
             $patientData = $collection->only(["first_name", "last_name", "gender", "birthdate", "birth_place", "address", "city", "zip", "country"])->toArray();*/
 
-            $patientData = array_merge($collection->toArray(), ["account_type" => "patient"]);
+            $patientData = array_merge($collection, ["account_type" => "patient"]);
 
             // TODO: create user model
             $user = $creator->create($patientData);
@@ -220,10 +227,11 @@ class CreateAppointment extends Component
             dd($inputs, $e->errors());
         }
 
-        $appointment = $patient->appointments()->create($data);
+        $patient->appointments()->create($data);
+
+        $this->emit("appointmentCreated");
 
         return redirect()->route("patient.appointment.index");
-
     }
 
     public function render()

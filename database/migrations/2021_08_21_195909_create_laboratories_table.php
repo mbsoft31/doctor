@@ -24,6 +24,8 @@ class CreateLaboratoriesTable extends Migration
             $table->string("city");
             $table->string("zip");
             $table->string("country");
+            $table->string("state");
+            $table->text("metas");
             $table->foreignId("user_id")
                 ->constrained()
                 ->onDelete("cascade");

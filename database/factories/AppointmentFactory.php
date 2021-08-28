@@ -37,7 +37,7 @@ class AppointmentFactory extends Factory
         }
 
         return  array_merge( $data ,[
-            "date" => Carbon::today()->addDays(rand(1, 10))->format("Y-m-d"),
+            "date" => Carbon::today()->addDays(rand(0, 10))->format("Y-m-d"),
             "time" => $this->faker->randomElement(["08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30",]),
             "patient_id" => Patient::all()->random()->id,
             "state" => "accepted",

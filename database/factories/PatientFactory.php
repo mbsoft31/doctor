@@ -33,6 +33,7 @@ class PatientFactory extends Factory
             "city" => $this->faker->city(),
             "zip" => rand(10000, 58999),
             "country" => "DZ",
+            "metas" => [],
             "user_id" => User::factory(),
         ];
     }

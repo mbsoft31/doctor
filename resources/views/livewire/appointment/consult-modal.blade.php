@@ -5,7 +5,7 @@
         </button>
     </div>
 
-    <div x-show="show" class="fixed inset-0" style="z-index: 1001">
+    <div x-show="show" class="fixed inset-0" style="display:none; z-index: 1001">
         <div class="absolute inset-0 bg-gray-900 bg-opacity-25" style="z-index: 1002"></div>
         <div class="absolute inset-0 flex items-center justify-center" style="z-index: 1003">
             <div @click.away="show = false" class="max-w-xl w-full divide-y divide-dashed divide-gray-200 border rounded-lg shadow-lg bg-white">
@@ -40,11 +40,11 @@
                     </div>
                 </main>
 
-                <header class="px-6 py-4">
+                <footer class="px-6 py-4">
                     <button wire:click="consult">
                         {{ __("Consult") }}
                     </button>
-                </header>
+                </footer>
             </div>
         </div>
     </div>

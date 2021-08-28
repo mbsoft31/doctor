@@ -1,18 +1,12 @@
 <div>
-    <div class="bg-white px-6 py-8">
+    <div class="">
         @if( $appointment )
-            <x-appointment.appointment-show :appointment="$appointment" />
 
-            @if( ! $appointment->isConsulted())
-                <div class="mt-8 space-y-8">
-                    <div class="flex items-center text-lg">
-                        <div class="flex-1"></div>
-                        <div>
-                            <livewire:appointment.consult-modal :appointment="$appointment" />
-                        </div>
-                    </div>
+            <div class="space-y-8">
+                <div>
+                    <x-appointment.appointment-show :appointment="$appointment" />
                 </div>
-            @endif
+            </div>
 
             @if($appointment->isConsulted())
                 <div class="mt-8 space-y-8">

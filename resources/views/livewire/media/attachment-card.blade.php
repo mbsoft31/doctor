@@ -1,7 +1,4 @@
 <div>
-    @php
-        $types = ["application/pdf", "application/vnd.oasis.opendocument.text", "image/jpeg", "image/png"];
-    @endphp
     <div class="bg-gray-50 px-6 py-4 border rounded-md shadow-sm">
         <div class="flex space-x-2">
             <div class="space-y-2">

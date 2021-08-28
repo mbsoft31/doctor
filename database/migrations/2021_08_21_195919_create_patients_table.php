@@ -24,6 +24,7 @@ class CreatePatientsTable extends Migration
             $table->string("city");
             $table->string("zip");
             $table->string("country");
+            $table->text("metas");
             $table->foreignId("user_id")
                 ->constrained()
                 ->onDelete("cascade");

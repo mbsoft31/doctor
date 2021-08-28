@@ -25,6 +25,11 @@ class Search extends Component
 
     public function mount()
     {
+        $this->initCites();
+    }
+
+    public function initCites()
+    {
         $this->cities = Laboratory::query()
             ->distinct()
             ->select(["city"])
@@ -34,28 +39,21 @@ class Search extends Component
             ->toArray();
     }
 
+    public function query($perPage = 2)
+    {
+        return Laboratory::search($this->search)->city($this->city)->paginate($perPage);
+    }
+
+    public function updated($key, $value)
+    {
+        $this->page = collect(["search", "date", "city"])->contains($key) ? 1 : $this->page;
+    }
+
     public function render()
     {
+        //dd($this->query(), $this->query()->nextPageUrl(), $this->query()->previousPageUrl());
         return view('livewire.laboratory.search', [
             "laboratories" => $this->query(),
         ]);
-    }
-
-    public function query()
-    {
-        $query = Laboratory::query();
-
-        if ( ! is_null($this->city) && $this->city != '') {
-            $query->where("city", "=", $this->city);
-        }
-
-        if ( ! is_null($this->search) && $this->search != '')
-        {
-            $query->where("first_name", 'like', "%$this->search%")
-                ->orWhere("last_name", 'like', "%$this->search%")
-                ->orWhere("address", 'like', "%$this->search%");
-        }
-
-        return $query->paginate(2);
     }
 }

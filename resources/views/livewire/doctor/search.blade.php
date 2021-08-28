@@ -23,11 +23,13 @@
     <div class="mt-6 max-w-7xl mx-auto">
         <div class="max-w-3xl mx-auto w-full">
             <div class="px-6 py-10 space-y-8">
-                <div class="rounded-lg overflow-hidden">
-                    <div class="px-6 py-4 bg-white border-b shadow">
-                        {{ $doctors->links() }}
+                @if($doctors->links() && ! ( $doctors->nextPageUrl() == $doctors->previousPageUrl() ))
+                    <div class="rounded-lg overflow-hidden">
+                        <div class="px-6 py-4 bg-white border-b shadow">
+                            {{ $doctors->links() }}
+                        </div>
                     </div>
-                </div>
+                @endif
 
                 <div class="space-y-8">
                     @foreach($doctors as $doctor)
@@ -56,11 +58,13 @@
                     @endforeach
                 </div>
 
-                <div class="rounded-lg overflow-hidden">
-                    <div class="px-6 py-4 bg-white border-b shadow">
-                        {{ $doctors->links() }}
+                @if($doctors->links() && ! ( $doctors->nextPageUrl() == $doctors->previousPageUrl() ))
+                    <div class="rounded-lg overflow-hidden">
+                        <div class="px-6 py-4 bg-white border-b shadow">
+                            {{ $doctors->links() }}
+                        </div>
                     </div>
-                </div>
+                @endif
             </div>
         </div>
     </div>
