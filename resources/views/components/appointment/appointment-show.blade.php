@@ -20,18 +20,23 @@
 
     </div>
 
-    @if( ! $appointment->isConsulted())
-        <div class="mt-4">
-            <div class="flex items-center px-6 py-4">
-                <div class="flex-1 py-4"></div>
-                <div class="flex items-center space-x-4">
+    <div class="mt-4">
+        <div class="flex items-center px-6 py-4">
+            <div class="flex-1 py-4"></div>
+            <div class="flex space-x-4">
+                @if(Auth::user()->is($appointment->appointment_at->user))
                     <livewire:appointment.delay-appointment :appointment="$appointment" :model="$appointment->appointment_at" :type="$appointment->appointment_at_type"/>
-                    <livewire:appointment.consult-modal :appointment="$appointment" />
-                </div>
+                @endif
 
+                @if( (Auth::user()->is($appointment->appointment_at->user) && $appointment->isConsulted()) || Auth::user()->is($appointment->patient->user) )
+                    <livewire:appointment.attach-appointment :appointment="$appointment" :model="$appointment->appointment_at" :type="$appointment->appointment_at_type"/>
+                @endif
+                @if( Auth::user()->is($appointment->appointment_at->user) && ! $appointment->isConsulted())
+                    <livewire:appointment.consult-modal :appointment="$appointment" />
+                @endif
             </div>
         </div>
-    @endif
+    </div>
 
     @if( $appointment->isConsulted() )
         <div class="mt-4 space-y-8">
