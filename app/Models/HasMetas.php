@@ -14,7 +14,7 @@ trait HasMetas
      * @param $value
      * @return $this
      */
-    public function addMeta($key, $value): static
+    public function addMeta($key, $value)
     {
         $options = $this->metas;
 
