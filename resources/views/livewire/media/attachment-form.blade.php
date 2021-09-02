@@ -35,7 +35,6 @@
                 <div class="group relative flex items-center justify-center w-full h-32 border-4 border-dashed ">
                     <input type="file"
                            wire:model="media"
-                           wire:change="hideFileInput()"
                            {{--accept=".doc,.docx,application/vnd.oasis.opendocument.text,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.jpg,.jpeg,.png,.pdf"--}}
                            name="content" id="content" placeholder="select a file to upload"
                            class="absolute opacity-0 w-full h-full" />

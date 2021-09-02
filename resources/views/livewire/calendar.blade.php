@@ -10,7 +10,7 @@
 
             @foreach($days as $day)
                 <div class="flex flex-col items-center">
-                    <div class="text-sm font-semibold">{{ \Carbon\Carbon::make($day["date"])?->format("l") }}</div>
+                    <div class="text-sm font-semibold">{{ \Carbon\Carbon::make($day["date"])->format("l") }}</div>
                     <div class="text-xs font-bold tracking-wide">
                         {{ $day["date"] }}
                     </div>

@@ -30,20 +30,21 @@ class DatabaseSeeder extends Seeder
             ->create();
 
         Doctor::factory()
-            ->count(10)
+            ->count(15)
             ->afterCreating(function ($model) {
                 $model->user->assignRole("doctor");
             })
             ->create();
+
         Laboratory::factory()
-            ->count(10)
+            ->count(4)
             ->afterCreating(function ($model) {
                 $model->user->assignRole("laboratory");
             })
             ->create();
 
         Appointment::factory()
-            ->count(100)
+            ->count(200)
             ->create();
 
         Doctor::first()->update([

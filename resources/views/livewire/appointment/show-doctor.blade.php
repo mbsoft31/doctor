@@ -42,7 +42,7 @@
                     @if($appointment->getMedia("attachments")->count() > 0)
                         <div class="space-y-4">
                             @foreach($appointment->getMedia("attachments") as $media)
-                                <livewire:media.attachment-card :media="$media" wire:key="'media-{{$media->id}}'"></livewire:media.attachment-card>
+                                <livewire:media.attachment-card :media="$media" wire:key="'media-{{$media->id}}'"></livewire:media.a            ttachment-card>
                             @endforeach
                         </div>
                     @endif

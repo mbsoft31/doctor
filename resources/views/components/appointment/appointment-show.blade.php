@@ -24,7 +24,7 @@
         <div class="flex items-center px-6 py-4">
             <div class="flex-1 py-4"></div>
             <div class="flex space-x-4">
-                @if(Auth::user()->is($appointment->appointment_at->user))
+                @if(Auth::user()->hasRole("patient") && Auth::user()->patient->id == $appointment->patient_id)
                     <livewire:appointment.delay-appointment :appointment="$appointment" :model="$appointment->appointment_at" :type="$appointment->appointment_at_type"/>
                 @endif
 

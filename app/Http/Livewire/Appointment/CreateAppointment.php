@@ -93,7 +93,7 @@ class CreateAppointment extends Component
         return $availableTimes;
     }
 
-    public function makeAppointment(CreatesNewUsers $creator): \Illuminate\Http\RedirectResponse
+    public function makeAppointment(CreatesNewUsers $creator)
     {
         $patientRules = [
             "first_name" => [ "required", ],

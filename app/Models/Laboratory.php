@@ -65,7 +65,7 @@ class Laboratory extends Model
     public function scopeSearch(Builder $query, $search = null)
     {
         if ( ! is_null($search) && $search != '') {
-            $query->where("first_name", 'like', "%$$search%")
+            $query->where("first_name", 'like', "%$search%")
                 ->orWhere("last_name", 'like', "%$search%")
                 ->orWhere("address", 'like', "%$search%");
         }

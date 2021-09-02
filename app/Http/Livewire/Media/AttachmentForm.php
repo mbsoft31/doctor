@@ -28,15 +28,15 @@ class AttachmentForm extends Component
         "attachmentDeleted" => '$refresh',
     ];
 
-    public function hideAttachmentForm()
-    {
-        $this->show = false;
-    }
+        public function hideAttachmentForm()
+        {
+            $this->show = false;
+        }
 
-    public function showAttachmentForm()
-    {
-        $this->show = false;
-    }
+        public function showAttachmentForm()
+        {
+            $this->show = false;
+        }
 
     public function toggleAttachmentForm()
     {
@@ -66,7 +66,7 @@ class AttachmentForm extends Component
         $this->media->delete();
 
         $this->emit("attachmentAdded");
-        $this->hideFileInput();
+        //$this-> ();
     }
 
     public function clearUpload()
