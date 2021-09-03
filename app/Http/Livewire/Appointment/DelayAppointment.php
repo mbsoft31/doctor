@@ -49,6 +49,7 @@ class DelayAppointment extends Component
 
         $this->appointment->save();
 
+        $this->show = false;
         $this->emit("appointmentDelayed");
     }
 

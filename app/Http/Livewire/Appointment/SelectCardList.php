@@ -18,6 +18,7 @@ class SelectCardList extends Component
 
     protected $listeners = [
         "dateUpdated" => '$refresh',
+        "appointmentDelayed" => '$refresh',
     ];
 
     public function updatedDate()

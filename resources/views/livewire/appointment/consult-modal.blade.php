@@ -24,10 +24,12 @@
                                 <input wire:model="state.consult_in" type="radio" value="in_place" name="consult_in" id="in-place">
                                 <span>{{ __("In place") }}</span>
                             </label>
-                            <label for="online-meeting">
-                                <input wire:model="state.consult_in" type="radio" value="online_meeting" name="consult_in" id="online-meeting">
-                                <span>{{ __("Online meeting") }}</span>
-                            </label>
+                            @if(Auth::user()->hasRole("doctor"))
+                                <label for="online-meeting">
+                                    <input wire:model="state.consult_in" type="radio" value="online_meeting" name="consult_in" id="online-meeting">
+                                    <span>{{ __("Online meeting") }}</span>
+                                </label>
+                            @endif
                         </div>
 
                         @if($state["consult_in"] == "online_meeting")

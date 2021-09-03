@@ -21,6 +21,8 @@ class ShowPatient extends Component
         "appointmentSelected",
         "hideAttachmentForm",
         "toggleAttachmentForm",
+        "attachmentDeleted" => '$refresh',
+        "appointmentDelayed" => '$refresh',
         "appointmentConsulted" => 'render',
     ];
 

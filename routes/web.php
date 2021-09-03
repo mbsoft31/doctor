@@ -39,3 +39,7 @@ Route::get("/patient/appointment", [\App\Http\Controllers\AppointmentController:
 Route::get("/doctor/appointment", [\App\Http\Controllers\AppointmentController::class, "index"])
     ->name("doctor.appointment.index")
     ->middleware(["auth", "role:doctor"]);
+
+Route::get("/laboratory/appointment", [\App\Http\Controllers\AppointmentController::class, "index"])
+    ->name("laboratory.appointment.index")
+    ->middleware(["auth", "role:laboratory"]);

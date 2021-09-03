@@ -28,15 +28,15 @@ class AttachmentForm extends Component
         "attachmentDeleted" => '$refresh',
     ];
 
-        public function hideAttachmentForm()
-        {
-            $this->show = false;
-        }
+    public function hideAttachmentForm()
+    {
+        $this->show = false;
+    }
 
-        public function showAttachmentForm()
-        {
-            $this->show = false;
-        }
+    public function showAttachmentForm()
+    {
+        $this->show = false;
+    }
 
     public function toggleAttachmentForm()
     {

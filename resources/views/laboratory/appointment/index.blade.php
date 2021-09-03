@@ -8,7 +8,7 @@
 
     <div class="max-w-7xl mx-auto">
         <div class="mt-8 px-6 py-4">
-            <livewire:patient.appointments />
+            <livewire:laboratory.appointments />
         </div>
     </div>
 

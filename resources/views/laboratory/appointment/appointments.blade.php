@@ -7,9 +7,7 @@
         <div class="col-span-1"></div>
 
         <div class="col-span-8">
-            <div class="col-span-8">
-                <livewire:appointment.show-patient />
-            </div>
+            <livewire:appointment.show-doctor />
         </div>
 
     </div>

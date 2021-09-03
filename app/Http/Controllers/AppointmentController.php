@@ -39,6 +39,15 @@ class AppointmentController extends Controller
                 "selected" => Auth::user()->doctor->appointments()->orderBy("appointments.date")->first(),
             ]);
         }
+
+        if (Auth::user()->hasRole("laboratory"))
+        {
+            return view("laboratory.appointment.index", [
+                "laboratory" => Auth::user()->laboratory,
+                "appointments" => Auth::user()->laboratory->appointments()->orderBy("appointments.date")->get(),
+                "selected" => Auth::user()->laboratory->appointments()->orderBy("appointments.date")->first(),
+            ]);
+        }
     }
 
     /**

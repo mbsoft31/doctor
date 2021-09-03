@@ -1,16 +1,27 @@
 @props(["appointment" => null, "show" => false])
 
+@php
+    if($appointment->is_past)
+    {
+        $bg = "bg-red-50";
+        $text = "text-red-500";
+    }else {
+        $bg ="bg-green-50";
+        $text = "text-green-500";
+    }
+@endphp
+
 <div class="">
 
     <div class="">
 
-        <div @if($appointment->is_past) class="flex items-center px-4 py-4 bg-red-50" @else class="flex items-center px-6 py-4 bg-green-50"@endif>
+        <div class="flex items-center px-4 py-4 {{ $bg }}">
             <div class="flex-1 py-4">
                 <div>
                     <span class="font-bold tracking-wide text-gray-500">{{ __("Appointment date") }}:</span>
                     <span class="text-xl font-bold tracking-wide text-gray-700">{{ $appointment->date_formated }}</span>
                 </div>
-                <div @if($appointment->is_past) class="uppercase text-sm font-semibold tracking-wide text-red-500" @else class="uppercase text-sm font-semibold tracking-wide text-green-500"@endif>
+                <div class="uppercase text-sm font-semibold tracking-wide {{ $text }}">
                     {{ $appointment->shortRelativeDiffForHumans() }}
                 </div>
             </div>
