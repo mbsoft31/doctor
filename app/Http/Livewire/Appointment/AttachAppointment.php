@@ -55,7 +55,12 @@ class AttachAppointment extends Component
 
         $url = str_replace("public/", "", $this->temp_url);
 
-        $options = ['user_id' => Auth::id(),'content' => $this->content];
+        $options = ['user_id' => Auth::id()];
+
+        if ($this->content != null && $this->content != '')
+        {
+            $options = array_merge($options, ['content' => $this->content]);
+        }
 
         $this->upload = $this->appointment
             ->addMedia($this->media->getRealPath())

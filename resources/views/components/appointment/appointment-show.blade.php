@@ -49,26 +49,6 @@
         </div>
     </div>
 
-    @if( $appointment->isConsulted() )
-        <div class="mt-4 space-y-8">
-            <div class="flex items-center px-6 py-4 bg-green-50">
-                <div class="flex-1 py-4">
-                    <span class="font-bold tracking-wide text-gray-500">{{ __("Attachments") }}:</span>
-                </div>
-                <div>
-                    <button wire:click="$emit('toggleAttachmentForm')" type="button" class="block px-6 py-2 border rounded-md shadow-sm text-center font-semibold tracking-wide text-white bg-blue-400 hover:text-white hover:bg-blue-600">
-                        {{ _("Add attachment") }}
-                    </button>
-                </div>
-            </div>
-            @if($show)
-                <div class="px-6 py-4 w-full border rounded-md bg-white">
-                    <livewire:media.attachment-form :model="$appointment" wire:key="'appointment-{{$appointment->id}}'" />
-                </div>
-            @endif
-        </div>
-    @endif
-
     <div class="flex flex-col">
         <div class="py-4 space-y-4">
 

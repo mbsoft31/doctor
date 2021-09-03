@@ -1,6 +1,14 @@
 <div>
     @if(isset($media) && ! is_null($media))
+
+
+
         <div class="bg-gray-50 px-6 py-4 border rounded-md shadow-sm">
+            @if($media->hasCustomProperty("content"))
+                <div class="py-4 text-2xl font-semibold text-gray-700">
+                    {{ $media->getCustomProperty("content") }}
+                </div>
+            @endif
             <div class="flex space-x-2">
                 <div class="space-y-2">
                     @if($media->mime_type == 'image/jpeg' || $media->mime_type == "image/png")
@@ -13,7 +21,7 @@
                 </div>
                 <div class="flex-1 px-2 space-y-2 overflow-x-hidden">
                     <div class="flex items-center">
-                        <p class="flex-1 text-lg font-bold tracking-wide text-gray-600 whitespace-pre-wrap">{!! $media->file_name !!}</p>
+                        <p class="flex-1 text-lg font-bold tracking-wide text-gray-500 whitespace-pre-wrap">{!! $media->file_name !!}</p>
                     </div>
                     <div class="text-lg text-gray-500 font-bold tracking-wide">
                         <span>{{ __("Size") }}: </span> <span>{{ $media->human_readable_size }}</span>
