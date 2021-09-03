@@ -49,6 +49,22 @@
         </div>
     </div>
 
+    @if(isset($appointment->metas["consult_in"]))
+        <div class="flex items-center px-4 py-4">
+            <div class="flex-1 py-4">
+                <div>
+                    <span class="font-bold tracking-wide text-gray-500">{{ __("Appointment type") }}:</span>
+                    <span class="text-xl font-bold tracking-wide text-gray-700">{{ $appointment->metas["consult_in"] == "in_place" ? "In place" : ( $appointment->metas["consult_in"] == "online_meeting"?"Online meeting": "") }}</span>
+                </div>
+                @if(isset($appointment->metas["meeting_url"]) && $appointment->metas["consult_in"] == "online_meeting")
+                    <a href="{{ $appointment->metas["meeting_url"] }}" target="_blank" class="uppercase text-sm font-semibold tracking-wide text-green-500">
+                        {{ $appointment->metas["meeting_url"] }}
+                    </a>
+                @endif
+            </div>
+        </div>
+    @endif
+
     <div class="flex flex-col">
         <div class="py-4 space-y-4">
 

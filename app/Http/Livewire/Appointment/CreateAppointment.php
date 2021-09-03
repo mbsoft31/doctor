@@ -35,20 +35,23 @@ class CreateAppointment extends Component
 
     public function mount()
     {
-        $this->state = [
-            "first_name" => null,
-            "last_name" => null,
-            "gender" => null,
-            "birthdate" => null,
-            "birth_place" => null,
-            "address" => null,
-            "city" => null,
-            "zip" => null,
-            "country" => null,
-            "phone" => null,
-            "email" => null,
-            "password" => null,
-        ];
+        $this->fill([
+
+            "state.first_name" => null,
+            "state.last_name" => null,
+            "state.gender" => null,
+            "state.birthdate" => null,
+            "state.birth_place" => null,
+            "state.address" => null,
+            "state.city" => null,
+            "state.zip" => null,
+            "state.country" => null,
+            "state.phone" => null,
+            "state.email" => null,
+            "state.password" => null,
+
+            "state.consult_in" => "in_place",
+        ]);
 
         if ( ! isset($this->date) || ! is_null($this->date))
             $this->date = Carbon::today()->format("Y-m-d");
@@ -105,6 +108,7 @@ class CreateAppointment extends Component
             "city" => [ "required", ],
             "zip" => [ "required", ],
             "country" => [ "required", ],
+
         ];
 
         $appointmentRules = [
@@ -114,6 +118,7 @@ class CreateAppointment extends Component
             "time" => ["required", "string"],
             "state" => ["required"],
             "metas" => ["array"],
+            "metas.consult_in" => ["required", "in:in_place,online_meeting"],
         ];
 
         $inputs = [
@@ -122,7 +127,10 @@ class CreateAppointment extends Component
             "date" => $this->date,
             "time" => $this->time,
             "state" => "accepted",
-            "metas" => [],
+            "metas" => [
+                "consult_in" => $this->state["consult_in"],
+                "meeting_url" => $this->state["meeting_url"],
+            ],
         ];
 
         if ( Auth::check() && Auth::user()->hasRole("patient") )

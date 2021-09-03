@@ -95,13 +95,33 @@
                                     <x-jet-input id="date" type="date" class="mt-1 block w-full" wire:model="date" autocomplete="date" />
                                     <x-jet-input-error for="date" class="mt-2" />
                                 </div>
-
+                                <div class="col-span-12">
+                                    <div class="space-y-4">
+                                        <div>
+                                            {{ __("Where the consultation is going to be ?") }}
+                                        </div>
+                                        <div class="space-x-4">
+                                            <label for="in-place">
+                                                <input wire:model="state.consult_in" type="radio" value="in_place" name="consult_in" id="in-place">
+                                                <span>{{ __("In place") }}</span>
+                                            </label>
+                                            @if($model->user->hasRole("doctor"))
+                                                <label for="online-meeting">
+                                                    <input wire:model="state.consult_in" type="radio" value="online_meeting" name="consult_in" id="online-meeting">
+                                                    <span>{{ __("Online meeting") }}</span>
+                                                </label>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="col-span-12 grid grid-cols-12">
                                     <div class="col-span-12">
                                         <x-jet-label for="time" value="{{ __('Time') }}" />
                                         <x-jet-input id="time" disabled type="text" class="mt-1 block w-full" wire:model="time" autocomplete="time" />
                                         <x-jet-input-error for="time" class="mt-2" />
                                     </div>
+
+
 
                                     <div class="col-span-1"></div>
                                     {{-- Time input --}}
