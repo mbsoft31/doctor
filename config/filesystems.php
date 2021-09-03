@@ -33,6 +33,8 @@ return [
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app'),
+            'url' => env('APP_URL').'/uploads',
+            'visibility' => 'public',
         ],
 
         'public' => [
@@ -68,6 +70,7 @@ return [
 
     'links' => [
         public_path('storage') => storage_path('app/public'),
+        public_path('uploads') => storage_path('app'),
     ],
 
 ];

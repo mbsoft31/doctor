@@ -27,6 +27,7 @@ class AttachAppointment extends Component
         "showAttachmentForm",
         "hideAttachmentForm",
         "toggleAttachmentForm",
+        "attachmentAdded" => '$refresh',
         "attachmentDeleted" => '$refresh',
     ];
 
@@ -47,24 +48,23 @@ class AttachAppointment extends Component
 
     public function updatedMedia()
     {
-        if (!$this->media)
-            return;
-
-        $this->temp_url = $this->media->store('public/tmp');
-
-        // $this->save();
     }
 
     public function save()
     {
 
-        $url = asset(str_replace("public/", "storage/", $this->temp_url));
+        $url = str_replace("public/", "", $this->temp_url);
+
+        $options = ['user_id' => Auth::id(),'content' => $this->content];
 
         $this->upload = $this->appointment
-            ->addMediaFromUrl($url)
-            ->withCustomProperties(['user_id' => Auth::id()])
-            ->withCustomProperties(['content' => $this->content])
+            ->addMedia($this->media->getRealPath())
+            ->usingName($this->media->getClientOriginalName())
+            ->withCustomProperties($options)
             ->toMediaCollection('attachments');
+
+        $this->show = false;
+        $this->show_attachement = false;
 
         $this->emit("attachmentAdded");
         //$this-> ();
@@ -74,9 +74,8 @@ class AttachAppointment extends Component
     {
         $this->cleanupOldUploads();
         $this->media = null;
-        $this->temp_url = null;
         $this->upload = null;
-        $this->show = true;
+        $this->show = false;
     }
 
     public function render()
