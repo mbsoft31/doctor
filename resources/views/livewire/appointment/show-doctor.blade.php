@@ -10,15 +10,6 @@
 
             @if($appointment->isConsulted())
                 <div class="mt-8 space-y-8">
-                    <div>
-                        <span>Consultation type</span>: {{ $appointment->getMeta("consult_in") }}
-                    </div>
-                    <div>
-                        {{ $appointment->getMeta("meeting_url", "not defined") }}
-                    </div>
-                </div>
-
-                <div class="mt-8 space-y-8">
                     <div class="flex items-center text-lg">
                         <div class="flex-1">
                             {{ __("Attachments") }}:

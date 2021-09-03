@@ -129,7 +129,6 @@ class CreateAppointment extends Component
             "state" => "accepted",
             "metas" => [
                 "consult_in" => $this->state["consult_in"],
-                "meeting_url" => $this->state["meeting_url"],
             ],
         ];
 
