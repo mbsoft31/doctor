@@ -1,7 +1,7 @@
 <div x-data="{show: @entangle('show')}">
     <div>
         <button @click="show = true" type="button" class="block px-6 py-2 border rounded-md shadow-sm text-center font-semibold tracking-wide text-white bg-yellow-400 hover:text-white hover:bg-yellow-600">
-            {{ _("Delay") }}
+            {{ _("Edit") }}
         </button>
     </div>
 
@@ -14,7 +14,7 @@
                 <form action="#" wire:submit.stop="render">
                     <header class="px-6 py-4">
                         <div class="inline-block text-xl font-semibold tracking-wide text-indigo-900 py-4 border-b-2 border-indigo-600 ">
-                            {{ __("Delay appointment") }}
+                            {{ __("Edit appointment") }}
                         </div>
                     </header>
 
@@ -71,7 +71,7 @@
                     <footer class="px-6 py-4">
                         <div class="py-6 text-xl text-right">
                             <button wire:click="delayAppointment" type="button" class="px-6 py-2 rounded-lg shadow-md bg-yellow-500 text-gray-50 hover:bg-yellow-700 hover:text-white">
-                                {{ __("Delay appointment") }}
+                                {{ __("Edit appointment") }}
                             </button>
                         </div>
                     </footer>

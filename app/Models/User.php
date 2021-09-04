@@ -80,7 +80,7 @@ class User extends Authenticatable
     /**
      * @return string
      */
-    public function getNameAttribute(): string
+    public function getNameAttribute()
     {
         if ($this->hasRole("doctor"))
             return $this->doctor->name;
