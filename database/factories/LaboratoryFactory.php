@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Laboratory;
+use App\Models\Speciality;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -24,20 +25,15 @@ class LaboratoryFactory extends Factory
     public function definition()
     {
         return [
-            "first_name" => $this->faker->firstName("male"),
-            "last_name" => $this->faker->lastName(),
-            "gender" => $this->faker->randomElement(["male", "female"]),
-            "birthdate" => Carbon::today()->subYears(18)->subDays(rand(1,100))->format("Y-m-d"),
-            "birth_place" => $this->faker->city(),
+            "name" => $this->faker->sentence(4),
             "address" => $this->faker->streetAddress(),
             "city" => $this->faker->city(),
             "zip" => rand(10000, 58999),
             "country" => "DZ",
             "state" => "pending",
-            "metas" => [
-                "days_off" => [Carbon::getWeekendDays()]
-            ],
+            "metas" => [],
             "user_id" => User::factory(),
+            "speciality_id" => Speciality::factory(),
         ];
     }
 }

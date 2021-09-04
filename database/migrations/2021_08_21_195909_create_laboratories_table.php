@@ -15,11 +15,7 @@ class CreateLaboratoriesTable extends Migration
     {
         Schema::create('laboratories', function (Blueprint $table) {
             $table->id();
-            $table->string("first_name");
-            $table->string("last_name");
-            $table->string("gender");
-            $table->string("birthdate");
-            $table->string("birth_place");
+            $table->string("name");
             $table->string("address");
             $table->string("city");
             $table->string("zip");
@@ -27,6 +23,9 @@ class CreateLaboratoriesTable extends Migration
             $table->string("state");
             $table->text("metas");
             $table->foreignId("user_id")
+                ->constrained()
+                ->onDelete("cascade");
+            $table->foreignId("speciality_id")
                 ->constrained()
                 ->onDelete("cascade");
             $table->timestamps();

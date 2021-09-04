@@ -82,6 +82,12 @@ class User extends Authenticatable
      */
     public function getNameAttribute(): string
     {
+        if ($this->hasRole("doctor"))
+            return $this->doctor->name;
+        if ($this->hasRole("laboratory"))
+            return $this->laboratory->name;
+        if ($this->hasRole("patient"))
+            return $this->patient->name;
         return $this->phone;
     }
 }

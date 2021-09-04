@@ -13,8 +13,20 @@
                 <x-jet-section-border />
             @endif
 
+            @if (Auth::user()->hasRole("laboratory"))
+                @livewire('profile.update-laboratory-profile-information-form')
+
+                <x-jet-section-border />
+            @endif
+
             @if (Auth::user()->hasRole("patient"))
                 @livewire('profile.update-patient-profile-information-form')
+
+                <x-jet-section-border />
+            @endif
+
+            @if (Auth::user()->hasAnyRole(["laboratory", "doctor"]))
+                @livewire('profile.update-payment-information')
 
                 <x-jet-section-border />
             @endif

@@ -66,8 +66,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Laboratory::first()->update([
-            "first_name" => "Mostapha",
-            "last_name" => "Hacini",
+            "name" => "Mostapha Hacini laboratory",
         ]);
         Laboratory::first()->user->update([
             "email" => "laboratory@mail.com",

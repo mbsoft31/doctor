@@ -2,9 +2,11 @@
 
 namespace App\Actions\Fortify;
 
+use App\Mail\UserRegistred;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
@@ -27,17 +29,18 @@ class CreateNewUser implements CreatesNewUsers
 
         Validator::make($input, [
 
-            "first_name" => ['required', 'string',],
-            "last_name" => ['required', 'string',],
-            "birthdate" => ['required', 'date',],
-            "birth_place" => ['required', 'string',],
-            "gender" => ['required', 'string', "in:male,female"],
+            "name" => ['required_if:account_type,laboratory', 'string',],
+            "first_name" => ['exclude_if:account_type,laboratory', 'required', 'string',],
+            "last_name" => ['exclude_if:account_type,laboratory', 'required', 'string',],
+            "birthdate" => ['exclude_if:account_type,laboratory', 'required', 'date',],
+            "birth_place" => ['exclude_if:account_type,laboratory', 'required', 'string',],
+            "gender" => ['exclude_if:account_type,laboratory', 'required', 'string', "in:male,female"],
             "address" => ['required', 'string',],
             "city" => ['required', 'string',],
             "zip" => ['required', 'string',],
             "account_type" => ['required', 'string', 'in:patient,doctor,laboratory,admin'] ,
             "country" => ['required', 'string',],
-            "speciality_id" => ['required_if:account_type,doctor', 'int', ],
+            "speciality_id" => ['required_if:account_type,doctor', 'required_if:account_type,laboratory', 'int', ],
 
             'phone' => ['required', 'string', 'max:15'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
@@ -67,11 +70,23 @@ class CreateNewUser implements CreatesNewUsers
                 "country" => $input["country"],
                 "speciality_id" => $input["speciality_id"],
                 "state" => "pending",
-                "metas" => [
-                    "days_off" => [Carbon::getWeekendDays()]
-                ],
+                "metas" => [],
             ]);
-        } elseif ($input["account_type"] == "patient")
+        }
+        elseif ($input["account_type"] == "laboratory")
+        {
+            $user->laboratory()->create([
+                "name" => $input["name"],
+                "address" => $input["address"],
+                "city" => $input["city"],
+                "zip" => $input["zip"],
+                "country" => $input["country"],
+                "speciality_id" => $input["speciality_id"],
+                "state" => "pending",
+                "metas" => [],
+            ]);
+        }
+        elseif ($input["account_type"] == "patient")
         {
             $user->patient()->create([
                 "first_name" => $input["first_name"],
@@ -85,24 +100,9 @@ class CreateNewUser implements CreatesNewUsers
                 "country" => $input["country"],
                 "metas" => [],
             ]);
-        }elseif ($input["account_type"] == "laboratory")
-        {
-            $user->laboratory()->create([
-                "first_name" => $input["first_name"],
-                "last_name" => $input["last_name"],
-                "birthdate" => $input["birthdate"],
-                "birth_place" => $input["birth_place"],
-                "gender" => $input["gender"],
-                "address" => $input["address"],
-                "city" => $input["city"],
-                "zip" => $input["zip"],
-                "country" => $input["country"],
-                "state" => "pending",
-                "metas" => [
-                    "days_off" => [Carbon::getWeekendDays()]
-                ],
-            ]);
         }
+
+        Mail::to($user)->send(new UserRegistred($user));
 
         return $user;
     }

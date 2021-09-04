@@ -34,9 +34,7 @@ class DoctorFactory extends Factory
             "city" => $this->faker->city(),
             "zip" => rand(10000, 58999),
             "country" => "DZ",
-            "metas" => [
-                "days_off" => [Carbon::getWeekendDays()]
-            ],
+            "metas" => [],
             "state" => "pending",
             "user_id" => User::factory(),
             "speciality_id" => Speciality::factory(),

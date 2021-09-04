@@ -2,11 +2,13 @@
 
 namespace App\Http\Livewire\Appointment;
 
+use App\Mail\AppointmentCreated;
 use App\Models\Appointment;
 use App\Models\Doctor;
 use App\Models\Laboratory;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
@@ -234,9 +236,12 @@ class CreateAppointment extends Component
             dd($inputs, $e->errors());
         }
 
-        $patient->appointments()->create($data);
+        $appointment = $patient->appointments()->create($data);
 
         $this->emit("appointmentCreated");
+
+        Mail::to($appointment->patient->user)->send(new AppointmentCreated($appointment, $appointment->patient->user));
+        Mail::to($appointment->appointment_at->user)->send(new AppointmentCreated($appointment, $appointment->appointment_at->user));
 
         return redirect()->route("patient.appointment.index");
     }
