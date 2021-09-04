@@ -23,7 +23,7 @@
 
     ------------------------------------------------------------------
 
-    Has been created.
+    Has been canceled.
 
     <div>
         regards

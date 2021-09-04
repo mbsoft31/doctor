@@ -5,6 +5,8 @@
         $classes = "text-gray-50 bg-green-500";
     elseif ($state == "consulted")
         $classes = "text-gray-50 bg-blue-500";
+    elseif ($state == "canceled")
+        $classes = "text-gray-50 bg-red-500";
     else
         $classes = "text-gray-50 bg-gray-500";
 @endphp

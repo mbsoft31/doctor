@@ -35,15 +35,20 @@
         <div class="flex items-center px-6 py-4">
             <div class="flex-1 py-4"></div>
             <div class="flex space-x-4">
-                @if(Auth::user()->hasRole("patient") && Auth::user()->patient->id == $appointment->patient_id)
+                @if(Auth::user()->hasRole("patient") && Auth::user()->patient->id == $appointment->patient_id && ! $appointment->isCanceled() )
                     <livewire:appointment.delay-appointment :appointment="$appointment" :model="$appointment->appointment_at" :type="$appointment->appointment_at_type"/>
                 @endif
 
-                @if( (Auth::user()->is($appointment->appointment_at->user) && $appointment->isConsulted()) || Auth::user()->is($appointment->patient->user) )
+                @if( (Auth::user()->is($appointment->appointment_at->user) && $appointment->isConsulted()) || (Auth::user()->is($appointment->patient->user) && ! $appointment->isCanceled()) )
                     <livewire:appointment.attach-appointment :appointment="$appointment" :model="$appointment->appointment_at" :type="$appointment->appointment_at_type"/>
                 @endif
-                @if( Auth::user()->is($appointment->appointment_at->user) && ! $appointment->isConsulted())
+                @if( Auth::user()->is($appointment->appointment_at->user) && ! $appointment->isConsulted() && ! $appointment->isCanceled())
                     <livewire:appointment.consult-modal :appointment="$appointment" />
+                @endif
+                @if(!$appointment->isCanceled() && $appointment->isAccepted() )
+                    @if( (Auth::user()->hasRole("patient") && Auth::user()->patient->id == $appointment->patient_id) || Auth::user()->is($appointment->appointment_at->user) && ! $appointment->isConsulted())
+                        <livewire:appointment.cancel-modal :appointment="$appointment" />
+                    @endif
                 @endif
             </div>
         </div>

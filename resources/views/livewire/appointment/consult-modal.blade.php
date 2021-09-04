@@ -42,8 +42,8 @@
                     </div>
                 </main>
 
-                <footer class="px-6 py-4">
-                    <button wire:click="consult">
+                <footer class="px-6 py-4 flex justify-end">
+                    <button wire:click="consult" class="px-4 py-2 bg-indigo-500 text-gray-50 hover:text-white hover:bg-indigo-700">
                         {{ __("Consult") }}
                     </button>
                 </footer>

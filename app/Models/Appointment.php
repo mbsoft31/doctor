@@ -64,6 +64,11 @@ class Appointment extends Model implements HasMedia
         return $this->state == "accepted";
     }
 
+    public function isCanceled()
+    {
+        return $this->state == "canceled";
+    }
+
     public function getDateFormatedAttribute()
     {
         $date = Carbon::createFromFormat("Y-m-d H:i", $this->date . ' ' . $this->time);

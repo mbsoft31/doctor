@@ -18,6 +18,7 @@ class ShowDoctor extends Component
     ];
 
     protected $listeners = [
+        "appointmentCanceled" => '$refresh',
         "appointmentDelayed" => '$refresh',
         "attachmentAdded" => '$refresh',
         "appointmentSelected",
