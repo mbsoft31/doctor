@@ -29,6 +29,7 @@ class CreateNewUser implements CreatesNewUsers
 
             "first_name" => ['required', 'string',],
             "last_name" => ['required', 'string',],
+            "birthdate" => ['required', 'date',],
             "birth_place" => ['required', 'string',],
             "gender" => ['required', 'string', "in:male,female"],
             "address" => ['required', 'string',],
@@ -57,6 +58,7 @@ class CreateNewUser implements CreatesNewUsers
             $doctor = $user->doctor()->create([
                 "first_name" => $input["first_name"],
                 "last_name" => $input["last_name"],
+                "birthdate" => $input["birthdate"],
                 "birth_place" => $input["birth_place"],
                 "gender" => $input["gender"],
                 "address" => $input["address"],

@@ -34,7 +34,9 @@
                                         <span class="font-semibold tracking-wider text-gray-400 group-hover:text-gray-600">Select a file to upload | JPG, PNG, DOC or PDF</span>
                                     </div>
                                 </div>
-
+                                <div>
+                                    <x-input.error for="media" />
+                                </div>
                             </div>
                         </main>
                         <footer class="">

@@ -23,6 +23,12 @@
                         </x-jet-nav-link>
                     @endif
 
+                    @if(Auth::user()->hasRole("laboratory"))
+                        <x-jet-nav-link href="{{ route('laboratory.appointment.index') }}" :active="request()->routeIs('laboratory.appointment.index')">
+                            {{ __('Appointments') }}
+                        </x-jet-nav-link>
+                    @endif
+
                     @if(Auth::user()->hasRole("patient"))
                         <x-jet-nav-link href="{{ route('patient.appointment.index') }}" :active="request()->routeIs('patient.appointment.index')">
                             {{ __('Appointments') }}
