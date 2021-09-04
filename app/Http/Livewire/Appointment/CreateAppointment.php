@@ -73,6 +73,8 @@ class CreateAppointment extends Component
         return Appointment::where("appointment_at_id", $this->model->id)
             ->where("appointment_at_type", $this->type)
             ->whereDate("date", $this->date)
+            ->where("state", "!=", "canceled")
+            ->where("state", "!=", "consulted")
             ->get();
     }
 
