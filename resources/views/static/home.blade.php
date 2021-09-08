@@ -1,19 +1,24 @@
 <x-static-layout>
 
-    <div class="w-full bg-indigo-700">
-        <div class="max-w-7xl mx-auto h-full">
-            <div class="flex items-center md:flex md:items-end px-6 py-12 h-full">
+    <div class="relative w-full min-h-screen">
+        <div class="-mt-8 absolute inset-0">
+            <video class="w-full h-full" autoplay loop src="{{asset("assets/images/bg-moving.mp4")}}"></video>
+        </div>
+        <div class="absolute inset-0 z-30">
+            <div class=" max-w-7xl mx-auto h-full">
+                <div class="flex items-center md:flex md:items-end px-6 py-12 h-full">
 
-                <div class="w-full sm:w-full md:w-2/3 text-center md:text-left">
-                    <div>
-                        <svg class="w-32 h-32 text-white mx-auto md:m-0" fill="currentColor" viewBox="0 0 512 512"><path d="M447.1 112c-34.2.5-62.3 28.4-63 62.6-.5 24.3 12.5 45.6 32 56.8V344c0 57.3-50.2 104-112 104-60 0-109.2-44.1-111.9-99.2C265 333.8 320 269.2 320 192V36.6c0-11.4-8.1-21.3-19.3-23.5L237.8.5c-13-2.6-25.6 5.8-28.2 18.8L206.4 35c-2.6 13 5.8 25.6 18.8 28.2l30.7 6.1v121.4c0 52.9-42.2 96.7-95.1 97.2-53.4.5-96.9-42.7-96.9-96V69.4l30.7-6.1c13-2.6 21.4-15.2 18.8-28.2l-3.1-15.7C107.7 6.4 95.1-2 82.1.6L19.3 13C8.1 15.3 0 25.1 0 36.6V192c0 77.3 55.1 142 128.1 156.8C130.7 439.2 208.6 512 304 512c97 0 176-75.4 176-168V231.4c19.1-11.1 32-31.7 32-55.4 0-35.7-29.2-64.5-64.9-64zm.9 80c-8.8 0-16-7.2-16-16s7.2-16 16-16 16 7.2 16 16-7.2 16-16 16z"/></svg>
+                    <div class="w-full sm:w-full md:w-2/3 text-center md:text-left">
+                        <div>
+                            <svg class="w-32 h-32 text-white mx-auto md:m-0" fill="currentColor" viewBox="0 0 512 512"><path d="M447.1 112c-34.2.5-62.3 28.4-63 62.6-.5 24.3 12.5 45.6 32 56.8V344c0 57.3-50.2 104-112 104-60 0-109.2-44.1-111.9-99.2C265 333.8 320 269.2 320 192V36.6c0-11.4-8.1-21.3-19.3-23.5L237.8.5c-13-2.6-25.6 5.8-28.2 18.8L206.4 35c-2.6 13 5.8 25.6 18.8 28.2l30.7 6.1v121.4c0 52.9-42.2 96.7-95.1 97.2-53.4.5-96.9-42.7-96.9-96V69.4l30.7-6.1c13-2.6 21.4-15.2 18.8-28.2l-3.1-15.7C107.7 6.4 95.1-2 82.1.6L19.3 13C8.1 15.3 0 25.1 0 36.6V192c0 77.3 55.1 142 128.1 156.8C130.7 439.2 208.6 512 304 512c97 0 176-75.4 176-168V231.4c19.1-11.1 32-31.7 32-55.4 0-35.7-29.2-64.5-64.9-64zm.9 80c-8.8 0-16-7.2-16-16s7.2-16 16-16 16 7.2 16 16-7.2 16-16 16z"/></svg>
+                        </div>
+                        <h1 class="mt-10 text-5xl sm:text-6xl md:text-7xl font-bold tracking-wider text-white">{{ __(config("app.name", "Medical Library")) }}</h1>
+                        {{--<p class="mt-6 text-sm sm:text-base md:text-lg font-semibold tracking-wide text-gray-100">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias consequatur debitis excepturi expedita impedit natus nobis, odio quidem unde vero.
+                        </p>--}}
                     </div>
-                    <h1 class="mt-10 text-5xl sm:text-6xl md:text-7xl font-bold tracking-wider text-white">Medical Library</h1>
-                    <p class="mt-6 text-sm sm:text-base md:text-lg font-semibold tracking-wide text-gray-100">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias consequatur debitis excepturi expedita impedit natus nobis, odio quidem unde vero.
-                    </p>
-                </div>
 
+                </div>
             </div>
         </div>
     </div>
@@ -60,6 +65,32 @@
                     </a>
                 </div>
 
+            </div>
+        </div>
+    </div>
+
+    <div class="w-full bg-white ">
+        <div class="max-w-7xl mx-auto h-full">
+            <div class="px-6 py-24 h-full space-y-16">
+                <div class="pro-main-title large-6 float-center cell space-y-4">
+                    <h2 class="text-center text-4xl font-bold text-gray-900">{{ __("How does it work ?") }}</h2>
+                    <hr class="mx-auto w-64 border-b-2 border-green-400">
+                    <p class="text-center text-gray-600">{{ __("Hello Doctor for professionals, is a set of services") }} <br> {{ __("and daily support.") }}</p>
+                </div>
+                <div class="flex items-center justify-around">
+                    <div class="w-64 h-64 space-y-4">
+                        <img class="w-full h-full object-cover object-center" src="{{ asset("assets/images/small-account.jpg") }}" alt="">
+                        <h3 class="text-lg font-bold tracking-wide text-center">{{ __("I create an account") }}</h3>
+                    </div>
+                    <div class="w-64 h-64 space-y-4">
+                        <img class="w-full h-full object-cover object-center" src="{{ asset("assets/images/small-search.jpg") }}" alt="">
+                        <h3 class="text-lg font-bold tracking-wide text-center">{{ __("I look by speciality") }}</h3>
+                    </div>
+                    <div class="w-64 h-64 space-y-4">
+                        <img class="w-full h-full object-cover object-center" src="{{ asset("assets/images/small-praticien.jpg") }}" alt="">
+                        <h3 class="text-lg font-bold tracking-wide text-center">{{ __("I choose my practicien") }}</h3>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

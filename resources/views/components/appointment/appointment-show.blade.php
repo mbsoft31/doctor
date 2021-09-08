@@ -78,22 +78,11 @@
             </div>
 
             <div class="px-4 py-4 border rounded-lg shadow-md bg-gray-50">
-                <x-appointment.patient-card :model="$appointment->patient" />
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="flex flex-col">
-        <div class="py-4 space-y-4">
-
-            <div class="inline-block text-xl font-semibold tracking-wide text-indigo-900 py-4 border-b-2 border-indigo-600 ">
-                {{ __("Appointment At") }}
-            </div>
-
-            <div class="px-4 py-4 border rounded-lg shadow-md bg-gray-50">
-                <x-appointment.appointment-at-card :model="$appointment->appointment_at" :type="$appointment->appointment_at_type" />
+                @if(Auth::user()->hasAnyRole(["doctor", "laboratory"]))
+                    <x-appointment.patient-card :model="$appointment->patient" />
+                @elseif(Auth::user()->hasRole("patient"))
+                    <x-appointment.appointment-at-card :model="$appointment->appointment_at" :type="$appointment->appointment_at_type" />
+                @endif
             </div>
 
         </div>

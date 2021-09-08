@@ -18,7 +18,62 @@
                     }
                 @endphp
 
-                <x-appointment.appointment-card :appointment="$appointment" class="{{$class}} rounded-lg overflow-hidden" />
+                @php
+                    if($appointment->appointment_at->user->hasRole("doctor"))
+                        $color="blue-600";
+                    elseif($appointment->appointment_at->user->hasRole("laboratory"))
+                        $color="green-600";
+                    else
+                        $color="gray-600";
+                @endphp
+
+                <div class="{{$class}} rounded-lg overflow-hidden">
+                    <div class="border rounded-lg shadow-sm overflow-hidden">
+                        <div class="px-4 py-1.5 bg-{{$color}}">
+                            <span class="inline-block text-sm font-semibold text-gray-50">{{ $appointment->date }} - </span>
+                            <span class="inline-block text-sm font-semibold text-gray-50">{{ $appointment->time }}</span>
+                        </div>
+                        <div class="px-4 py-4 space-y-2">
+                            @if(Auth::user()->hasRole("patient"))
+                                <div>
+                                    <div class="">
+                                        <span class="block text-sm font-semibold tracking-wide">{{ __("Appointment at") }}: </span>
+                                        <span class="block font-bold">{{ $appointment->appointment_at->name }}</span>
+                                    </div>
+                                    <div class="">
+                                        <span class="block text-sm font-semibold tracking-wide">{{ __("Speciality") }}: </span>
+                                        <span class="block font-bold">{{ $appointment->appointment_at->speciality->name }}</span>
+                                    </div>
+                                    <div class="">
+                                        <span class="block text-sm font-semibold tracking-wide">{{ __("Address") }}: </span>
+                                        <span class="block font-bold">{{ $appointment->appointment_at->address }}</span>
+                                    </div>
+                                    <div class="">
+                                        <span class="block text-sm font-semibold tracking-wide">{{ __("Phone") }}: </span>
+                                        <span class="block font-bold">{{ $appointment->appointment_at->user->phone }}</span>
+                                    </div>
+                                </div>
+                            @endif
+
+                            @if(Auth::user()->hasAnyRole(["doctor", "laboratory"]))
+                                <div>
+                                    <div class="">
+                                        <span class="block text-sm font-semibold tracking-wide">{{ __("Appointment for") }}: </span>
+                                        <span class="block font-bold">{{ $appointment->patient->name }}</span>
+                                    </div>
+                                    <div class="">
+                                        <span class="block text-sm font-semibold tracking-wide">{{ __("Address") }}: </span>
+                                        <span class="block font-bold">{{ $appointment->patient->address }}</span>
+                                    </div>
+                                    <div class="">
+                                        <span class="block text-sm font-semibold tracking-wide">{{ __("Phone") }}: </span>
+                                        <span class="block font-bold">{{ $appointment->patient->user->phone }}</span>
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
             </a>
         @endforeach
     @endforeach
