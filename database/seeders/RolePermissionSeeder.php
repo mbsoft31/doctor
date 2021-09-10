@@ -19,7 +19,5 @@ class RolePermissionSeeder extends Seeder
         $role_doctor = Role::create(["name" => "doctor"]);
         $role_laboratory = Role::create(["name" => "laboratory"]);
 
-
-
     }
 }
